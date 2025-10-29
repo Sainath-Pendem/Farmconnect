@@ -1,0 +1,25 @@
+.notif-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.notif-list {
+  list-style: none;
+  padding: 0;
+}
+
+.notif-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  background-color: #f1f1f1;
+}
+
+.notif-item.accepted {
+  border-left: 6px solid green;
+}
+
+.notif-item.declined {
+  border-left: 6px solid red;
+}
