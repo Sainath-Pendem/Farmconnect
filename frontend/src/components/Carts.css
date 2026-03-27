@@ -1,0 +1,98 @@
+/* Container tweaks */
+.container {
+    max-width: 1200px;
+}
+
+/* Title animation */
+.title-animate {
+    animation: fadeSlide 0.8s ease-in-out;
+    font-weight: 600;
+    font-size: 1.8rem;
+}
+
+/* Card styles */
+.product-card {
+    border: none;
+    border-radius: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color:white;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Image styling */
+.card-img-top {
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+/* Card body text */
+.card-body {
+    padding: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.4;
+}
+
+/* Button styling */
+.btn-sm {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+}
+
+.btn-outline-danger.btn-sm {
+    border-color: #dc3545;
+    color: #dc3545;
+    background-color: #fff;
+}
+
+.btn-outline-danger.btn-sm:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-primary.btn-sm {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary.btn-sm:hover {
+    background-color: #0056b3;
+    border-color: #004c9b;
+}
+
+/* Animation keyframes */
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Empty state */
+.text-muted {
+    text-align: center;
+    width: 100%;
+    font-size: 1rem;
+    margin-top: 2rem;
+}
