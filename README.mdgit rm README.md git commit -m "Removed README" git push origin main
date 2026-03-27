@@ -1,0 +1,24 @@
+# FarmConnect
+
+A platform connecting farmers and buyers.
+
+## Tech Stack
+- Frontend: React
+- Backend: Spring Boot
+
+## Features
+- User Authentication
+- Product Listing
+- Order Tracking
+- Notifications
+
+## Run Locally
+
+### Frontend
+cd frontend
+npm install
+npm start
+
+### Backend
+cd backend
+mvn spring-boot:run
