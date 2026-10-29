@@ -3,6 +3,7 @@ package com.example.backend.Configuration;
 
 import com.example.backend.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +28,9 @@ public class Securityconfig {
     @Autowired
     JwtAuthFilter jwtAuthFilter;
 
+    @Value("${app.frontend-url:http://localhost:3000}")
+    private String frontendUrl;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -38,13 +42,13 @@ public class Securityconfig {
                                 "/buyer/login", "/buyer/signup", "/buyer/verify/**"
                         ).permitAll()
                         .requestMatchers("/farmer/**", "/farmer/product/**", "/farmer/products","/notify/**","/buyer/id/**","/order/farmer/**","/order/delete/**","/notif/add","/order/status/**").hasAuthority("Farmer")
-                        .requestMatchers("/buyer/**","/buyer/products","/order/**","/order/myorders/**","/api/payment/create-order").hasAuthority("Buyer")
+                        .requestMatchers("/buyer/**","/buyer/products","/order/**","/order/myorders/**").hasAuthority("Buyer")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults());
 
-        // 🔐 Add JWT filter before UsernamePasswordAuthenticationFilter
+        //  Add JWT filter before UsernamePasswordAuthenticationFilter
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -55,7 +59,7 @@ public class Securityconfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // your React frontend URL
+        configuration.setAllowedOrigins(List.of(frontendUrl));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true); // only if you're using cookies

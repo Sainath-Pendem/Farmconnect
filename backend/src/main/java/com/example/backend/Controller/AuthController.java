@@ -14,7 +14,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class AuthController {
 
     @GetMapping("/me")
@@ -38,8 +37,6 @@ public class AuthController {
                     "role", role
             ));
         }
-
-
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
     }
 
