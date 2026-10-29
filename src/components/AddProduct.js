@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import './AddProduct.css';
 import UserContext from '../Context/UserContext';
 
@@ -30,7 +30,7 @@ const AddProduct = () => {
     // Fetch profile data of farmer
     useEffect(() => {
         if (user) {
-            axios.get(`http://localhost:8080/${role.toLowerCase()}/${user.email}`, {
+            axios.get(`/${role.toLowerCase()}/${user.email}`, {
                 withCredentials: true,
             })
                 .then((res) => {
@@ -103,7 +103,7 @@ const AddProduct = () => {
 
             if (productToEdit) {
                 response = await axios.put(
-                    `http://localhost:8080/farmer/product/update/${productToEdit.p_id}`,
+                    `/farmer/product/update/${productToEdit.p_id}`,
                     formData,
                     {
                         withCredentials: true,
@@ -115,7 +115,7 @@ const AddProduct = () => {
                 setMessage('Product updated successfully');
             } else {
                 response = await axios.post(
-                    'http://localhost:8080/farmer/product',
+                    '/farmer/product',
                     formData,
                     {
                         withCredentials: true,

@@ -1,7 +1,4 @@
-import axios from 'axios';
-
-axios.defaults.withCredentials = true;
+import axios from './axiosConfig';
 
 export default axios;
-
 

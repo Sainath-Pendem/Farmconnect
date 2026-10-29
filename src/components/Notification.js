@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import './Notification.css';
 import { useUserContext } from '../Context/UserContext';
 import UserContext from '../Context/UserContext';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import Cookies from 'js-cookie';
 
 const Notification = () => {
@@ -21,7 +21,7 @@ const Notification = () => {
     uniqueBids.forEach(async (b_id) => {
       if (!buyerDetails[b_id]) {
         try {
-          const res = await axios.get(`http://localhost:8080/buyer/id/${b_id}`, {
+          const res = await axios.get(`/buyer/id/${b_id}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           setBuyerDetails(prev => ({ ...prev, [b_id]: res.data }));

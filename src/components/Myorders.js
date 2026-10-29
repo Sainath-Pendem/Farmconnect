@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import Cookies from 'js-cookie';
 import UserContext from '../Context/UserContext';
 import './MyOrders.css'; 
@@ -17,12 +17,12 @@ const Myorders = () => {
       if (!token || !email) return;
 
       try {
-        const buyerRes = await axios.get(`http://localhost:8080/buyer/${email}`, {
+        const buyerRes = await axios.get(`/buyer/${email}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         const b_id = buyerRes.data.b_id;
 
-        const ordersRes = await axios.get(`http://localhost:8080/order/myorders/${b_id}`, {
+        const ordersRes = await axios.get(`/order/myorders/${b_id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 

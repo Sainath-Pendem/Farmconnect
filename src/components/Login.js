@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../Context/UserContext';
 import Cookies from 'js-cookie';
@@ -29,7 +29,7 @@ const Login = (props) => {
         setError('');
 
         try {
-            const response = await axios.post(`http://localhost:8080/${props.role.toLowerCase()}/login`, {
+            const response = await axios.post(`/${props.role.toLowerCase()}/login`, {
                 withCredentials:true,
                 email,
                 password
@@ -53,8 +53,9 @@ const Login = (props) => {
             localStorage.setItem('userRole', props.role);
 
             // ✅ Fetch user info now
-            const userRes = await axios.get("http://localhost:8080/auth/me", {
-                withCredentials: true
+            const userRes = await axios.get("/auth/me", {
+                withCredentials: true,
+                headers: { Authorization: `Bearer ${token}` },
             });
 
             setUser(userRes.data);

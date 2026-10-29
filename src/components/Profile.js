@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import './Profile.css';
 import UserContext from '../Context/UserContext';
-import axios from 'axios';
+import axios from '../axiosConfig';
 
 const Profile = () => {
   const { user } = useContext(UserContext); // `user` is just email string
@@ -14,7 +14,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (user) {
-      axios.get(`http://localhost:8080/${role.toLowerCase()}/${user.email}`, {
+      axios.get(`/${role.toLowerCase()}/${user.email}`, {
         withCredentials: true,
       })
         .then((res) => {

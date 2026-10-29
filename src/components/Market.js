@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import './Market.css'; 
 import UserContext from '../Context/UserContext';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ const Market = () => {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:8080/buyer/products', {
+    axios.get('/buyer/products', {
       withCredentials: true
     })
       .then(response => {

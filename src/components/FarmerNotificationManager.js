@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import Cookies from 'js-cookie';
 import { useUserContext } from '../Context/UserContext';
 
@@ -18,7 +18,7 @@ const NotificationManager = () => {
       if (!token || !email || role !== 'Farmer') return;
 
       try {
-        const res = await axios.get(`http://localhost:8080/farmer/${email}`, {
+        const res = await axios.get(`/farmer/${email}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -46,7 +46,7 @@ const NotificationManager = () => {
       if (!token || !f_id) return;
 
       try {
-        const notifRes = await axios.get(`http://localhost:8080/notify/farmer/${f_id}`, {
+        const notifRes = await axios.get(`/notify/farmer/${f_id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 

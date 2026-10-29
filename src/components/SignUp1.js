@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './SignUp.css';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import { useNavigate } from 'react-router-dom';
 
 const SignUp = (props) => {
@@ -74,13 +74,13 @@ const SignUp = (props) => {
         if (!validateForm()) return;
 
         try {
-            const x = await axios.get(`http://localhost:8080/buyer/verify/${formData.email}`);
+            const x = await axios.get(`/buyer/verify/${formData.email}`);
             console.log(x);
             if (x.data) {
                 setError("Email exists already");
                 return;
             }
-            const response = await axios.post("http://localhost:8080/buyer/signup", formData);
+            const response = await axios.post("/buyer/signup", formData);
             console.log(response.data);
             setSignupSuccess(true);
             setFormData({

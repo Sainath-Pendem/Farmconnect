@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import Cookies from 'js-cookie';
 import { useUserContext } from '../Context/UserContext';
 
@@ -17,7 +17,7 @@ const BuyerNotificationListener = () => {
       if (!token || !email || role !== 'Buyer') return;
 
       try {
-        const res = await axios.get(`http://localhost:8080/buyer/${email}`, {
+        const res = await axios.get(`/buyer/${email}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -46,7 +46,7 @@ const BuyerNotificationListener = () => {
       if (!token || !b_id) return;
 
       try {
-        const notifRes = await axios.get(`http://localhost:8080/notif/${b_id}`, {
+        const notifRes = await axios.get(`/notif/${b_id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 

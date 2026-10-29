@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Link,  useLocation, useNavigate } from "react-router-dom";
 import UserContext from '../Context/UserContext';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import './NavBar.css'
 
 
@@ -28,7 +28,7 @@ export default function Navbar(props) {
     }
     const handlelogout = async () => {
         try {
-            await axios.post("http://localhost:8080/auth/logout", {}, {
+            await axios.post("/auth/logout", {}, {
                 withCredentials: true
             });
 

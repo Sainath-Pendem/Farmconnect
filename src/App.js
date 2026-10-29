@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import axios from 'axios';
+import axios from './axiosConfig';
 
 import About from './components/About';
 import Home from './components/Home';
@@ -34,8 +34,16 @@ function App() {
   const {  setUser, role, setRole } = useContext(UserContext);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/auth/me", {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setUser(null);
+      setRole('');
+      return;
+    }
+
+    axios.get("/auth/me", {
       withCredentials: true,
+      headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => {
         setRole(res.data.role);

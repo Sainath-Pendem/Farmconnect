@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import Cookies from 'js-cookie';
 import UserContext from '../Context/UserContext';
 import { useUserContext } from '../Context/UserContext';
@@ -29,7 +29,7 @@ const ViewOrders = () => {
 
     try {
       await axios.put(
-        `http://localhost:8080/order/status/${o_id}`,
+        `/order/status/${o_id}`,
         "accepted",
         {
           headers: {
@@ -39,7 +39,7 @@ const ViewOrders = () => {
         }
       );
 
-      await axios.post("http://localhost:8080/notif/add", {
+      await axios.post("/notif/add", {
         id: farmerId,
         o_id,
         b_id: order.b_id,
@@ -69,12 +69,12 @@ const ViewOrders = () => {
     if (!order) return;
 
     try {
-      const res = await axios.delete(`http://localhost:8080/order/delete/${o_id}`, {
+      const res = await axios.delete(`/order/delete/${o_id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
       if (res.status === 200) {
-        await axios.post("http://localhost:8080/notif/add", {
+        await axios.post("/notif/add", {
           id: farmerId,
           o_id,
           b_id: order.b_id,
@@ -106,7 +106,7 @@ const ViewOrders = () => {
       if (!token || !email) return;
 
       try {
-        const res = await axios.get(`http://localhost:8080/farmer/${email}`, {
+        const res = await axios.get(`/farmer/${email}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (res.data?.id) setFarmerId(res.data.id);
@@ -127,7 +127,7 @@ const ViewOrders = () => {
       if (!token) return;
 
       try {
-        const res = await axios.get(`http://localhost:8080/order/farmer/${farmerId}`, {
+        const res = await axios.get(`/order/farmer/${farmerId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setOrders(res.data || []);
@@ -151,7 +151,7 @@ const ViewOrders = () => {
     uniqueBuyerIds.forEach(async (b_id) => {
       if (!buyerDetails[b_id]) {
         try {
-          const res = await axios.get(`http://localhost:8080/buyer/id/${b_id}`, {
+          const res = await axios.get(`/buyer/id/${b_id}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           setBuyerDetails(prev => ({ ...prev, [b_id]: res.data }));

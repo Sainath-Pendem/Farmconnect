@@ -1,6 +1,6 @@
 import React, { useEffect, useState,useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
+import axios, { API_BASE_URL } from "../axiosConfig";
 import './Carts.css';
 import UserContext from '../Context/UserContext';
 
@@ -20,7 +20,7 @@ const Carts = () => {
 
     useEffect(() => {
         if (user) {
-            axios.get(`http://localhost:8080/${role.toLowerCase()}/${user.email}`, {
+            axios.get(`/${role.toLowerCase()}/${user.email}`, {
                 withCredentials: true,
             })
                 .then((res) => {
@@ -40,7 +40,7 @@ const Carts = () => {
             const token = localStorage.getItem("token");
 
             try {
-                const response = await axios.get(`http://localhost:8080/farmer/products/${profileData.id}`, {
+                const response = await axios.get(`/farmer/products/${profileData.id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -67,14 +67,14 @@ const Carts = () => {
         try {
             const token = localStorage.getItem("token");
 
-            await axios.delete(`http://localhost:8080/farmer/product/delete/${productId}`, {
+            await axios.delete(`/farmer/product/delete/${productId}`, {
                 withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
 
-            const res = await axios.get(`http://localhost:8080/farmer/products/${profileData.id}`, {
+            const res = await axios.get(`/farmer/products/${profileData.id}`, {
                 withCredentials: true,
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -111,7 +111,7 @@ const Carts = () => {
                         <div key={product.p_id} className="col-md-4 mb-4">
                             <div className="card shadow-sm h-100">
                                 <img
-                                    src={`http://localhost:8080/farmer/product/${product.p_id}/image`}
+                                    src={`${API_BASE_URL}/farmer/product/${product.p_id}/image`}
                                     alt={product.name}
                                     style={{ height: "180px", objectFit: "cover" }}
                                     className="card-img-top"

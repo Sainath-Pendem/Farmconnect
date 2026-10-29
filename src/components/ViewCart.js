@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import UserContext from '../Context/UserContext';
 import './ViewCart.css';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import Cookies from 'js-cookie';
 
 const ViewCart = () => {
@@ -10,12 +10,11 @@ const ViewCart = () => {
 
   const [quantities, setQuantities] = useState({});
   const [profileData, setProfileData] = useState(null);
-  const [paymentMethod, setPaymentMethod] = useState('');
   const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     if (user) {
-      axios.get(`http://localhost:8080/${role.toLowerCase()}/${user.email}`, {
+      axios.get(`/${role.toLowerCase()}/${user.email}`, {
         withCredentials: true,
       })
         .then((res) => setProfileData(res.data))
@@ -42,65 +41,20 @@ const ViewCart = () => {
         totalcost: item.price * quantities[item.p_id],
         b_id: profileData?.b_id,
         id: item.farmer.id,
-        payment: paymentMethod,
+        payment: 'Cash On Delivery',
       }));
 
-      if (paymentMethod === "Cash On Delivery") {
-        await axios.post('http://localhost:8080/order/checkout', orderData, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+      await axios.post('/order/checkout', orderData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-        setCartitems([]);
-        setShowToast(true);
-      } else if (paymentMethod === "UPI/Debit Card") {
-        const totalAmount = cartitems.reduce((total, item) => {
-          const qty = quantities[item.p_id] || 0;
-          return total + (item.price * qty) + ((item.price * qty) * 0.18);
-        }, 0);
-
-        const { data: razorOrder } = await axios.post(
-          "http://localhost:8080/api/payment/create-order",
-          { amount: Math.round(totalAmount) },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`, 
-            },
-          }
-        );
-
-        const options = {
-          key: "rzp_test_1fBToENlsuvgct", // Razorpay key_id
-          amount: razorOrder.amount,
-          currency: razorOrder.currency,
-          name: "Farm Connect",
-          description: "Farm Product Purchase",
-          order_id: razorOrder.id,
-          handler: async function (response) {
-            await axios.post('http://localhost:8080/order/checkout', orderData, {
-              headers: { Authorization: `Bearer ${token}` },
-            });
-
-            setCartitems([]);
-            setShowToast(true);
-          },
-          prefill: {
-            email: user.email || "customer@example.com",
-          },
-          theme: { color: "#0f9d58" },
-        };
-
-        const rzp = new window.Razorpay(options);
-        rzp.open();
-      } else {
-        alert("Please select a payment method.");
-      }
+      setCartitems([]);
+      setShowToast(true);
     } catch (err) {
       console.error(err);
-      alert("Error processing order or payment");
+      alert('Error placing order');
     }
   };
-
-
 
 
 
@@ -141,15 +95,7 @@ const ViewCart = () => {
 
       {cartitems.length !== 0 && (
         <div className='d-flex justify-content-between'>
-          <select
-            className="form-select my-3"
-            value={paymentMethod}
-            onChange={(e) => setPaymentMethod(e.target.value)}
-          >
-            <option value="" disabled>Select Payment Method</option>
-            <option value="Cash On Delivery">Cash On Delivery</option>
-            <option value="UPI/Debit Card">UPI/Debit Card</option>
-          </select>
+          <p className="my-3">Payment: Cash On Delivery</p>
           <button className="btn btn-success my-3" onClick={order}>
             Checkout
           </button>
