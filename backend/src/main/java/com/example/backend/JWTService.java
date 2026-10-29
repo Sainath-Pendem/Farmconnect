@@ -13,7 +13,7 @@ import java.util.Map;
 @Service
 public class JWTService {
 
-    private static final String SECRET_KEY = "this_is_a_super_secure_256_bit_secret_key_used_for_signing_JWTs";
+    private static final String SECRET_KEY = "a-string-secret-at-least-256-bits-long";
 
     private Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(java.util.Base64.getEncoder().encodeToString(SECRET_KEY.getBytes()));
@@ -27,7 +27,7 @@ public class JWTService {
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 24 hours
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 2))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
